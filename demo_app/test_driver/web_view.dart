@@ -52,7 +52,7 @@ class TestApp extends StatelessWidget {
         ),
       );
 
-  Widget _buildButton(String value, {bool issue375 = false}) => RaisedButton(
+  Widget _buildButton(String value, {bool issue375 = false}) => ElevatedButton(
         child: Text(value + (issue375 ? ' issue375' : '')),
         key: ValueKey('input-$value' + (issue375 ? '-issue375' : '')),
         onPressed: () {

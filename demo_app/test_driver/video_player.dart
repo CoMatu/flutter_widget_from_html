@@ -33,7 +33,7 @@ class _TestAppState extends State<TestApp> {
         ),
       );
 
-  Widget _buildButton(String value) => RaisedButton(
+  Widget _buildButton(String value) => ElevatedButton(
         child: Text(
           value,
           maxLines: 1,
