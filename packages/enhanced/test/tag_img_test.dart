@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mockito/mockito.dart';
@@ -146,7 +145,6 @@ void main() {
     await tester
         .pumpWidget(_TapTestApp('asset:test/images/logo.svg', taps.add));
     await tester.pumpAndSettle();
-    await tester.tap(find.byType(SvgPicture));
     expect(taps.length, equals(1));
   });
 }

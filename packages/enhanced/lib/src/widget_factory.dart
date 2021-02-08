@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart'
     as core show WidgetFactory;
 
@@ -40,11 +39,7 @@ class WidgetFactory extends core.WidgetFactory {
   Widget buildImage(BuildMetadata meta, Object provider, ImageMetadata data) {
     var built = super.buildImage(meta, provider, data);
 
-    if (_isFlutterSvgSupported &&
-        built == null &&
-        provider is PictureProvider) {
-      built = SvgPicture(provider);
-
+    if (_isFlutterSvgSupported && built == null) {
       if (_widget?.onTapImage != null) {
         built = GestureDetector(
           child: built,
@@ -147,14 +142,6 @@ class WidgetFactory extends core.WidgetFactory {
     if (imgSrc == null) return super.imageProvider(imgSrc);
     final url = imgSrc.url;
 
-    if (Uri.tryParse(url)?.path?.toLowerCase()?.endsWith('.svg') == true) {
-      return _imageSvgPictureProvider(url);
-    }
-
-    if (url.startsWith('data:image/svg+xml')) {
-      return _imageSvgMemoryPicture(url);
-    }
-
     if (url.startsWith('http')) {
       return _imageFromUrl(url);
     }
@@ -164,35 +151,6 @@ class WidgetFactory extends core.WidgetFactory {
 
   Object _imageFromUrl(String url) =>
       url?.isNotEmpty == true ? CachedNetworkImageProvider(url) : null;
-
-  Object _imageSvgMemoryPicture(String dataUri) {
-    final bytes = bytesFromDataUri(dataUri);
-    return bytes != null
-        ? MemoryPicture(SvgPicture.svgByteDecoder, bytes)
-        : null;
-  }
-
-  Object _imageSvgPictureProvider(String url) {
-    if (url?.startsWith('asset:') == true) {
-      final uri = url?.isNotEmpty == true ? Uri.tryParse(url) : null;
-      if (uri?.scheme != 'asset') return null;
-
-      final assetName = uri.path;
-      if (assetName?.isNotEmpty != true) return null;
-
-      final package = uri.queryParameters?.containsKey('package') == true
-          ? uri.queryParameters['package']
-          : null;
-
-      return ExactAssetPicture(
-        SvgPicture.svgStringDecoder,
-        assetName,
-        package: package,
-      );
-    }
-
-    return NetworkPicture(SvgPicture.svgByteDecoder, url);
-  }
 
   /// Handles user tapping a link.
   void onTapUrl(String url) {
@@ -267,8 +225,8 @@ class WidgetFactory extends core.WidgetFactory {
       case 'svg':
         if (_isFlutterSvgSupported) {
           _tagSvg ??= BuildOp(
-            onWidgets: (meta, _) => [SvgPicture.string(meta.element.outerHtml)],
-          );
+              //onWidgets: (meta, _) => [SvgPicture.string(meta.element.outerHtml)],
+              );
           meta.register(_tagSvg);
         }
         break;

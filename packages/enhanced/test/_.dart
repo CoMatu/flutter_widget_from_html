@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -14,10 +13,6 @@ final hwKey = helper.hwKey;
 final buildCurrentState = helper.buildCurrentState;
 
 String _explainer(helper.Explainer parent, Widget widget) {
-  if (widget is SvgPicture) {
-    return '[SvgPicture:pictureProvider=${widget.pictureProvider}]';
-  }
-
   if (widget is VideoPlayer) {
     return '[VideoPlayer:url=${widget.url}'
         ',aspectRatio=${widget.aspectRatio.toStringAsFixed(2)}'
