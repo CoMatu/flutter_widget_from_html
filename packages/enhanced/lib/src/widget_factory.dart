@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart'
@@ -18,9 +18,9 @@ class WidgetFactory extends core.WidgetFactory {
   State _state;
   TextStyleHtml Function(TextStyleHtml, dynamic) _tagA;
   BuildOp _tagIframe;
-  BuildOp _tagSvg;
+  //BuildOp _tagSvg;
 
-  bool get _isFlutterSvgSupported => !kIsWeb;
+  //bool get _isFlutterSvgSupported => !kIsWeb;
 
   HtmlWidget get _widget => _state.widget;
 
@@ -39,14 +39,18 @@ class WidgetFactory extends core.WidgetFactory {
   Widget buildImage(BuildMetadata meta, Object provider, ImageMetadata data) {
     var built = super.buildImage(meta, provider, data);
 
-    if (_isFlutterSvgSupported && built == null) {
+/*     if (_isFlutterSvgSupported &&
+        built == null &&
+        provider is PictureProvider) {
+      built = SvgPicture(provider);
+
       if (_widget?.onTapImage != null) {
         built = GestureDetector(
           child: built,
           onTap: () => _widget?.onTapImage?.call(data),
         );
       }
-    }
+    } */
 
     if (data.title != null && built != null) {
       built = Tooltip(child: built, message: data.title);
@@ -222,14 +226,14 @@ class WidgetFactory extends core.WidgetFactory {
         });
         meta.register(_tagIframe);
         break;
-      case 'svg':
+/*       case 'svg':
         if (_isFlutterSvgSupported) {
           _tagSvg ??= BuildOp(
-              //onWidgets: (meta, _) => [SvgPicture.string(meta.element.outerHtml)],
-              );
+            onWidgets: (meta, _) => [SvgPicture.string(meta.element.outerHtml)],
+          );
           meta.register(_tagSvg);
         }
-        break;
+        break; */
       case kTagVideo:
         meta.register(TagVideo(this, meta).op);
         break;
