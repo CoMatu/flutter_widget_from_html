@@ -148,7 +148,7 @@ class WidgetFactory {
       built = Image(
         errorBuilder: (_, error, __) {
           print('$provider error: $error');
-          final text = semanticLabel ?? '❌';
+          final text = semanticLabel ?? '❌ $error';
           return Text(text);
         },
         excludeFromSemantics: semanticLabel == null,
